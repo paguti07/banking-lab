@@ -6,7 +6,7 @@ import random
 import string
 
 def menu(customers: list):
-    logger = Logger().logger
+    logger = Logger().get_logger
     while True:
         print("""
                 1. Add customer
@@ -30,6 +30,7 @@ def menu(customers: list):
                 birth_date = date(year, month, day)
                 c = Customer(name = name, birth_date=birth_date)
                 customers.append(c)
+                print(f'Customer created with id {c.user_id}')
             except ValueError as e:
                 print("Invalid date. Please enter valid year, month, and day values.")
                 logger.error(e)
@@ -44,15 +45,21 @@ def menu(customers: list):
                 random_account = ''.join(random.choices(string.digits, k=10))
                 account_choise = input("Choose an option: ").strip()
                 if account_choise == "1":
-                    user_id = input("Customer Id: ").strip()
-                    if any(customer.user_id == user_id for customer in customers):
+                    user_id = int(input("Customer Id: ").strip())
+                    customer = next((customer for customer in customers if customer.user_id == user_id), None)
+                    if customer:
                         acc = BankAccount.create_savings(account_number=random_account)
+                        customer.add_account(acc)
+                        print(f"Savings account created: {acc.account_number}")
                     else:
                         print(f'Customer not found {user_id}')
                 elif account_choise == "2":
-                    user_id = input("Customer Id: ").strip()
-                    if any(customer.user_id == user_id for customer in customers):
+                    user_id = int(input("Customer Id: ").strip())
+                    customer = next((customer for customer in customers if customer.user_id == user_id), None)
+                    if customer:
                         acc = BankAccount(account_number=random_account)
+                        customer.add_account(acc)
+                        print(f"Bank account created: {acc.account_number}")
                     else:
                         print(f'Customer not found {user_id}')
                 elif account_choise == "3":
@@ -61,7 +68,7 @@ def menu(customers: list):
                     print("Invalid option")
 
         elif choice == "3":
-            user_id = input("Customer Id: ").strip()
+            user_id = int(input("Customer Id: ").strip())
             customer = next((customer for customer in customers if customer.user_id == user_id), None)
             if customer:
                 acc_number = input("Account Id: ").strip()
@@ -71,17 +78,17 @@ def menu(customers: list):
                     account.deposit(float(amount))
 
         elif choice == "4":
-            user_id = input("Customer Id: ").strip()
+            user_id = int(input("Customer Id: ").strip())
             customer = next((customer for customer in customers if customer.user_id == user_id), None)
             if customer:
                 acc_number = input("Account Id: ").strip()
                 account = next((acc for acc in customer.accounts if acc.account_number == acc_number),None)
                 if account:
-                    amount = input("Deposit amount: ").strip()
+                    amount = float(input("Deposit amount: ").strip())
                     account.withdraw(float(amount))
 
         elif choice == "5":
-            user_id = input("Customer Id: ").strip()
+            user_id = int(input("Customer Id: ").strip())
             customer = next((customer for customer in customers if customer.user_id == user_id), None)
             if customer:
                 src_acc_number = input("Source account Id: ").strip()
@@ -91,15 +98,17 @@ def menu(customers: list):
                 dst_acc = next((acc for acc in customer.accounts if acc.account_number == dst_acc_number),None)
 
                 if src_acc and dst_acc:
-                    amount = input("Transfer amount: ").strip()
+                    amount = float(input("Transfer amount: ").strip())
                     src_acc.withdraw(float(amount))
                     dst_acc.deposit(float(amount))
 
         elif choice == "6":
-            user_id = input("Customer Id: ").strip()
+            user_id = int(input("Customer Id: ").strip())
             customer = next((customer for customer in customers if customer.user_id == user_id), None)
             if customer:
                 print(f'Total Balance: {customer.get_total_balance()}')
+            else:
+                print(f'{user_id} is not a valid Customer Id')
         else:
             print("Invalid option")
 

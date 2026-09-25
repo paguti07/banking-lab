@@ -12,10 +12,10 @@ class BankAccount:
     ):
         if account_type == "savings" and balance < 100:
             raise InsufficientFundsError(
-                "Savings account balance can never fall below $100"
+                "Savings account balance can never fall below $100", balance
             )
 
-        self.logger = Logger().logger
+        self.logger = Logger().get_logger
         self._account_number = account_number
         self._account_type = account_type
         self._currency = currency
@@ -45,7 +45,7 @@ class BankAccount:
             self.logger.error(
                 f"Negative balance not allowed. Amount={self.currency}: {value}"
             )
-            raise ValueError("Negative balance not allowed")
+            raise ValueError("Negative balance not allowed", value)
 
     def deposit(self, value: float):
         if value > 0.0:
@@ -96,7 +96,7 @@ class BankAccount:
     ):
         if account_type == "savings" and balance < 100:
             raise InsufficientFundsError(
-                "Savings account balance can never fall below $100"
+                "Savings account balance can never fall below $100", balance
             )
 
         return cls(

@@ -28,7 +28,7 @@ class Logger:
 
         try:
             file_handler = logging.FileHandler(self.LOG_FILE, encoding="utf-8")
-            file_handler.setLevel(self.INFO)
+            file_handler.setLevel(self.LOG_LEVEL)
             file_handler.setFormatter(formatter)
             self.__logger.addHandler(file_handler)
         except OSError as e:

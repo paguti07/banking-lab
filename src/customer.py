@@ -7,11 +7,12 @@ class Customer:
     user_count = count(1)
 
     def __init__(self, name: str, birth_date: date):
-        if calculate_age(birth_date) < 18:
+        if Customer.calculate_age(birth_date) < 18:
             raise ValueError("Customer must be at least 18 years old")
         self._user_id = next(Customer.user_count)
         self.__accounts = []
-        self.logger = Logger().logger
+        self.name = name
+        self.logger = Logger().get_logger
 
     @staticmethod
     def calculate_age(birth_date: date, on_date: date = None) -> int:
@@ -49,4 +50,4 @@ class Customer:
         target_account.deposit(amount)
 
     def __repr__(self):
-        return self.user_id
+        return str(self.user_id)
