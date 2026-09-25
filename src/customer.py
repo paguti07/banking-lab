@@ -18,7 +18,7 @@ class Customer:
 
     @staticmethod
     def calculate_age(birth_date: date, on_date: date | None = None) -> int:
-        on_date = on_date or date.today() # noqa: DTZ011 — birth dates don't need a timezone
+        on_date = on_date or date.today()  # noqa: DTZ011 — birth dates don't need a timezone
         age = on_date.year - birth_date.year
         # subtract 1 if birthday hasn't happened yet this year
         if (on_date.month, on_date.day) < (birth_date.month, birth_date.day):
