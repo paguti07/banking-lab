@@ -3,7 +3,7 @@ import os
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 os.environ.setdefault("LOG_FILE", "test_banking.log")
 
-from datetime import date, timedelta
+import datetime
 from itertools import count
 
 import pytest
@@ -21,13 +21,13 @@ def reset_customer_id_counter():
 
 @pytest.fixture
 def adult_birth_date():
-    today = date.today()
+    today = datetime.datetime.now(tz=None).date()
     return today.replace(year=today.year - 25)
 
 
 @pytest.fixture
 def minor_birth_date():
-    today = date.today()
+    today = datetime.datetime.now(tz=None).date()
     return today.replace(year=today.year - 10)
 
 

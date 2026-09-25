@@ -1,11 +1,11 @@
-from datetime import date
 import random
 import string
+from datetime import date
 
-from customer import Customer
 from bank_account import BankAccount
-from logger import Logger
+from customer import Customer
 from exceptions import InsufficientFundsError
+from logger import Logger
 
 
 def find_customer(customers: list, user_id: int):

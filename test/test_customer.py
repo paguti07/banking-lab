@@ -1,3 +1,4 @@
+import datetime
 from datetime import date, timedelta
 
 import pytest
@@ -23,13 +24,13 @@ class TestConstruction:
         assert c2.user_id == c1.user_id + 1
 
     def test_exactly_18_today_is_allowed(self):
-        today = date.today()
+        today = datetime.datetime.now(tz=None).date()
         birth_date = today.replace(year=today.year - 18)
         customer = Customer("Just Eighteen", birth_date)
         assert customer.user_id == 1
 
     def test_turning_18_tomorrow_is_still_a_minor(self):
-        today = date.today()
+        today = datetime.datetime.now(tz=None).date()
         birth_date = today.replace(year=today.year - 18) + timedelta(days=1)
         with pytest.raises(ValueError):
             Customer("Almost 18", birth_date)

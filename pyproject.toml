@@ -21,3 +21,5 @@ pythonpath = ["src"]
 testpaths = ["test"]
 addopts = "-ra"
  
+[tool.ruff.lint.per-file-ignores]
+"test/*" = ["DTZ"]

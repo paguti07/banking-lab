@@ -1,5 +1,5 @@
-from logger import Logger
 from exceptions import InsufficientFundsError
+from logger import Logger
 
 
 class BankAccount:
@@ -108,4 +108,4 @@ class BankAccount:
 
     @staticmethod
     def is_valid_account_number(account_number: str):
-        return True if account_number.isdigit() and len(account_number) == 10 else False
+        return bool(account_number.isdigit() and len(account_number) == 10)
