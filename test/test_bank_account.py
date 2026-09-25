@@ -13,7 +13,9 @@ class TestConstruction:
         assert acct.balance == 0.0
 
     def test_custom_values(self):
-        acct = BankAccount("1234567890", currency="EUR", account_type="checking", balance=250.0)
+        acct = BankAccount(
+            "1234567890", currency="EUR", account_type="checking", balance=250.0
+        )
         assert acct.currency == "EUR"
         assert acct.balance == 250.0
 
@@ -113,12 +115,15 @@ class TestCreateSavings:
 
 
 class TestIsValidAccountNumber:
-    @pytest.mark.parametrize("number,expected", [
-        ("1234567890", True),
-        ("12345", False),        # too short
-        ("12345678901", False),  # too long
-        ("12345abcde", False),   # not all digits
-        ("", False),
-    ])
+    @pytest.mark.parametrize(
+        "number,expected",
+        [
+            ("1234567890", True),
+            ("12345", False),  # too short
+            ("12345678901", False),  # too long
+            ("12345abcde", False),  # not all digits
+            ("", False),
+        ],
+    )
     def test_validation(self, number, expected):
         assert BankAccount.is_valid_account_number(number) is expected

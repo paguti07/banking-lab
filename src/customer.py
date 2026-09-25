@@ -3,6 +3,7 @@ from itertools import count
 from bank_account import BankAccount
 from logger import Logger
 
+
 class Customer:
     user_count = count(1)
 

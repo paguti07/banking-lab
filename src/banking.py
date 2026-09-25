@@ -13,7 +13,9 @@ def find_customer(customers: list, user_id: int):
 
 
 def find_account(customer: Customer, account_number: str):
-    return next((acc for acc in customer.accounts if acc.account_number == account_number), None)
+    return next(
+        (acc for acc in customer.accounts if acc.account_number == account_number), None
+    )
 
 
 def prompt_customer_id() -> int:
@@ -23,7 +25,7 @@ def prompt_customer_id() -> int:
 def generate_unique_account_number(customers: list) -> str:
     existing = {acc.account_number for c in customers for acc in c.accounts}
     while True:
-        candidate = ''.join(random.choices(string.digits, k=10))
+        candidate = "".join(random.choices(string.digits, k=10))
         if candidate not in existing:
             return candidate
 
@@ -48,13 +50,13 @@ def menu(customers: list):
         elif choice == "1":
             try:
                 name = input("Customer Name: ").strip()
-                year = int(input('Enter the birth year: '))
-                month = int(input('Enter the birth month: '))
-                day = int(input('Enter the birth day: '))
+                year = int(input("Enter the birth year: "))
+                month = int(input("Enter the birth month: "))
+                day = int(input("Enter the birth day: "))
                 birth_date = date(year, month, day)
                 c = Customer(name=name, birth_date=birth_date)
                 customers.append(c)
-                print(f'Customer created with id {c.user_id}')
+                print(f"Customer created with id {c.user_id}")
             except ValueError as e:
                 print(f"Could not create customer: {e}")
                 logger.error(e)
@@ -79,13 +81,15 @@ def menu(customers: list):
 
                     customer = find_customer(customers, user_id)
                     if not customer:
-                        print(f'Customer not found: {user_id}')
+                        print(f"Customer not found: {user_id}")
                         continue
 
                     account_number = generate_unique_account_number(customers)
                     try:
                         if account_choice == "1":
-                            acc = BankAccount.create_savings(account_number=account_number)
+                            acc = BankAccount.create_savings(
+                                account_number=account_number
+                            )
                         else:
                             acc = BankAccount(account_number=account_number)
                         customer.add_account(acc)
@@ -104,13 +108,13 @@ def menu(customers: list):
                 continue
             customer = find_customer(customers, user_id)
             if not customer:
-                print(f'Customer not found: {user_id}')
+                print(f"Customer not found: {user_id}")
                 continue
 
             acc_number = input("Account Id: ").strip()
             account = find_account(customer, acc_number)
             if not account:
-                print(f'Account not found: {acc_number}')
+                print(f"Account not found: {acc_number}")
                 continue
 
             try:
@@ -129,13 +133,13 @@ def menu(customers: list):
                 continue
             customer = find_customer(customers, user_id)
             if not customer:
-                print(f'Customer not found: {user_id}')
+                print(f"Customer not found: {user_id}")
                 continue
 
             acc_number = input("Account Id: ").strip()
             account = find_account(customer, acc_number)
             if not account:
-                print(f'Account not found: {acc_number}')
+                print(f"Account not found: {acc_number}")
                 continue
 
             try:
@@ -154,7 +158,7 @@ def menu(customers: list):
                 continue
             customer = find_customer(customers, user_id)
             if not customer:
-                print(f'Customer not found: {user_id}')
+                print(f"Customer not found: {user_id}")
                 continue
 
             src_acc_number = input("Source account Id: ").strip()
@@ -170,7 +174,9 @@ def menu(customers: list):
             try:
                 amount = float(input("Transfer amount: ").strip())
                 customer.transfer(src_acc, dst_acc, amount)
-                print(f"Transfer complete. Source balance: {src_acc.balance}, destination balance: {dst_acc.balance}")
+                print(
+                    f"Transfer complete. Source balance: {src_acc.balance}, destination balance: {dst_acc.balance}"
+                )
             except (ValueError, InsufficientFundsError) as e:
                 print(f"Transfer failed: {e}")
                 logger.error(e)
@@ -183,9 +189,9 @@ def menu(customers: list):
                 continue
             customer = find_customer(customers, user_id)
             if customer:
-                print(f'Total Balance: {customer.get_total_balance()}')
+                print(f"Total Balance: {customer.get_total_balance()}")
             else:
-                print(f'{user_id} is not a valid Customer Id')
+                print(f"{user_id} is not a valid Customer Id")
 
         else:
             print("Invalid option")
