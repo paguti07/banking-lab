@@ -1,0 +1,25 @@
+[project]
+name = "banking-lab"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pytest>=9.1.1",
+    "python-dotenv>=1.2.3",
+    "ruff>=0.16.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+ 
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["test"]
+addopts = "-ra"
+ 
+[tool.ruff.lint.per-file-ignores]
+"test/*" = ["DTZ"]
